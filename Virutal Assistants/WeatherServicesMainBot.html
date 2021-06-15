@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+<center>
+<head>
+	<title >Amazon Lex -WeatherChatbot</title>
+	<script src="https://sdk.amazonaws.com/js/aws-sdk-2.41.0.min.js"></script>
+	<style language="text/css">
+		input#wisdom {
+			padding: 4px;
+			font-size: 1em;
+			width: 400px
+		}
+
+
+		input::placeholder {
+			color: #ccc;
+			font-style: italic;
+		}
+		body {
+		  background-color:#D3D3D3;
+		}
+		p.userRequest {
+			margin: 4px;
+			padding: 4px 10px 4px 10px;
+			border-radius: 4px;
+			min-width: 50%;
+			max-width: 85%;
+			float: left;
+			background-color: #7d7;
+		}
+
+		p.lexResponse {
+			margin: 4px;
+			padding: 4px 10px 4px 10px;
+			border-radius: 4px;
+			text-align: right;
+			min-width: 50%;
+			max-width: 85%;
+			float: right;
+			background-color: #bbf;
+			font-style: italic;
+		}
+
+		p.lexError {
+			margin: 4px;
+			padding: 4px 10px 4px 10px;
+			border-radius: 4px;
+			text-align: right;
+			min-width: 50%;
+			max-width: 85%;
+			float: right;
+			background-color: #f77;
+		}
+
+		/* Audio control code starts here */
+		.white-circle {
+			cursor: pointer;
+			background-color: #fff;
+			box-shadow: 0 0 8px #d8dbe3;
+			border-radius: 100px;
+			height: 100px;
+			margin: 0 auto;
+			width: 100px;
+		}
+
+		.white-circle:hover {
+			box-shadow: 0 0 8px #007dbc;
+		}
+
+		.white-circle img {
+			position: relative;
+			top: 18px;
+		}
+
+		.audio-control {
+			/*position: fixed;
+			top: 50%;
+			left: 50%;
+			margin-top: -50px;
+			margin-left: -50px;*/
+			text-align: center;
+		}
+
+		body {
+			font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+			line-height: 21px;
+			color: #444;
+			font-size: 13px;
+			font-weight: 400;
+			background-color: #f9fafc;
+		}
+
+		canvas {
+			height: 100px;
+			width: 100vw;
+			margin-top: -50px;
+			display: block;
+			position: fixed;
+			top: 50%;
+			left: 0;
+			z-index: -1;
+		}
+		/* Audio control code ends here */
+	</style>
+</head>
+
+<body>
+
+	<h1 class="title23"style="text-align:  center">Amazon Lex - WeatherChatbot</h1>
+
+	<p style="width: 400px">
+		<style>
+		.title23 {
+			color:black;
+			position: absolute;
+			right:30px;
+			top:90px;
+
+		}
+		</style>
+
+
+	</p>
+	<div id="conversation" style="width: 400px; height: 400px; border: 1px solid #ccc; background-color: #eee; padding: 4px; overflow: scroll"></div>
+	<form id="chatform" style="margin-top: 10px" onsubmit="return pushChat();">
+		<input type="text" id="wisdom" size="80" value="" placeholder="Say Something...">
+
+		<!-- Audio control html code starts here -->
+		<div class="audio-control">
+			<p id="audio-control" class="white-circle">
+				<img src="images/lex.png">
+				<canvas class="visualizer"></canvas>
+			</p>
+			<p>
+				<span id="message"></span>
+			</p>
+		</div>
+		<!-- Audio control html code ends here -->
+	</form>
+
+	<!-- Audio control Javascript code start -->
+	<script type="text/javascript">
+		var botName = 'enter name here';
+	</script>
+	<!-- Audio control Javascript code end -->
+
+	<script type="text/javascript">
+		// set the focus to the input box
+		document.getElementById("wisdom").focus();
+
+		// Initialize the Amazon Cognito credentials provider
+		AWS.config.region = 'us-east-1'; // Region
+		AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+			// Provide your Pool Id here
+			IdentityPoolId: 'enter here',
+		});
+
+		var lexruntime = new AWS.LexRuntime();
+		var lexUserId = 'chatbot-demo' + Date.now();
+		var sessionAttributes = {};
+
+		function pushChat() {
+
+			// if there is text to be sent...
+			var wisdomText = document.getElementById('wisdom');
+			if (wisdomText && wisdomText.value && wisdomText.value.trim().length > 0) {
+
+				// disable input to show we're sending it
+				var wisdom = wisdomText.value.trim();
+				wisdomText.value = '...';
+				wisdomText.locked = true;
+
+				// send it to the Lex runtime
+				var params = {
+					botAlias: '$LATEST',
+					botName: botName,
+					inputText: wisdom,
+					userId: lexUserId,
+					sessionAttributes: sessionAttributes
+				};
+				showRequest(wisdom);
+				lexruntime.postText(params, function (err, data) {
+					if (err) {
+						console.log(err, err.stack);
+						showError('Error:  ' + err.message + ' (see console for details)')
+					}
+					if (data) {
+						// capture the sessionAttributes for the next cycle
+						sessionAttributes = data.sessionAttributes;
+						// show response and/or error/dialog status
+						showResponse(data);
+					}
+					// re-enable input
+					wisdomText.value = '';
+					wisdomText.locked = false;
+				});
+			}
+			// we always cancel form submission
+			return false;
+		}
+
+		function showRequest(daText) {
+
+			var conversationDiv = document.getElementById('conversation');
+			var requestPara = document.createElement("P");
+			requestPara.className = 'userRequest';
+			requestPara.appendChild(document.createTextNode(daText));
+			conversationDiv.appendChild(requestPara);
+			conversationDiv.scrollTop = conversationDiv.scrollHeight;
+		}
+
+		function showError(daText) {
+
+			var conversationDiv = document.getElementById('conversation');
+			var errorPara = document.createElement("P");
+			errorPara.className = 'lexError';
+			errorPara.appendChild(document.createTextNode(daText));
+			conversationDiv.appendChild(errorPara);
+			conversationDiv.scrollTop = conversationDiv.scrollHeight;
+		}
+
+		function showResponse(lexResponse) {
+
+			var conversationDiv = document.getElementById('conversation');
+			var responsePara = document.createElement("P");
+			responsePara.className = 'lexResponse';
+			if (lexResponse.message) {
+				responsePara.appendChild(document.createTextNode(lexResponse.message));
+				responsePara.appendChild(document.createElement('br'));
+			}
+			if (lexResponse.dialogState === 'ReadyForFulfillment') {
+				responsePara.appendChild(document.createTextNode(
+					'Ready for fulfillment'));
+				// TODO:  show slot values
+			} else {
+				responsePara.appendChild(document.createTextNode(
+					'(' + lexResponse.dialogState + ')'));
+			}
+			conversationDiv.appendChild(responsePara);
+			conversationDiv.scrollTop = conversationDiv.scrollHeight;
+		}
+	</script>
+
+	<!-- Audio control Javascript code starts here -->
+	<script src="https://sdk.amazonaws.com/js/aws-sdk-2.48.0.min.js"></script>
+	<script type="text/javascript">
+		window.lexaudio = {};
+	</script>
+	<script src="./scripts/control.js" type="text/javascript"></script>
+	<script src="./scripts/recorder.js" type="text/javascript"></script>
+	<script src="./scripts/renderer.js" type="text/javascript"></script>
+	<script src="./scripts/conversation.js" type="text/javascript"></script>
+	<script type="text/javascript">
+		if (window.addEventListener) window.addEventListener("load", new lexaudio.example(), false);
+		else if (window.attachEvent) window.attachEvent("onload", setup(new lexaudio.example()));
+		else window.onload = new lexaudio.example();
+	</script>
+	<!-- Audio control Javascript code ends here -->
+</body>
+<center>
+</html>
