@@ -10,8 +10,6 @@
 			font-size: 1em;
 			width: 400px
 		}
-
-
 		input::placeholder {
 			color: #ccc;
 			font-style: italic;
@@ -28,7 +26,6 @@
 			float: left;
 			background-color: #7d7;
 		}
-
 		p.lexResponse {
 			margin: 4px;
 			padding: 4px 10px 4px 10px;
@@ -40,7 +37,6 @@
 			background-color: #bbf;
 			font-style: italic;
 		}
-
 		p.lexError {
 			margin: 4px;
 			padding: 4px 10px 4px 10px;
@@ -51,7 +47,6 @@
 			float: right;
 			background-color: #f77;
 		}
-
 		/* Audio control code starts here */
 		.white-circle {
 			cursor: pointer;
@@ -62,16 +57,13 @@
 			margin: 0 auto;
 			width: 100px;
 		}
-
 		.white-circle:hover {
 			box-shadow: 0 0 8px #007dbc;
 		}
-
 		.white-circle img {
 			position: relative;
 			top: 18px;
 		}
-
 		.audio-control {
 			/*position: fixed;
 			top: 50%;
@@ -80,7 +72,6 @@
 			margin-left: -50px;*/
 			text-align: center;
 		}
-
 		body {
 			font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
 			line-height: 21px;
@@ -89,7 +80,6 @@
 			font-weight: 400;
 			background-color: #f9fafc;
 		}
-
 		canvas {
 			height: 100px;
 			width: 100vw;
@@ -107,7 +97,6 @@
 <body>
 
 	<h1 class="title23"style="text-align:  center">Amazon Lex - WeatherChatbot</h1>
-
 	<p style="width: 400px">
 		<style>
 		.title23 {
@@ -118,8 +107,6 @@
 
 		}
 		</style>
-
-
 	</p>
 	<div id="conversation" style="width: 400px; height: 400px; border: 1px solid #ccc; background-color: #eee; padding: 4px; overflow: scroll"></div>
 	<form id="chatform" style="margin-top: 10px" onsubmit="return pushChat();">
@@ -137,7 +124,6 @@
 		</div>
 		<!-- Audio control html code ends here -->
 	</form>
-
 	<!-- Audio control Javascript code start -->
 	<script type="text/javascript">
 		var botName = 'enter name here';
@@ -198,7 +184,6 @@
 			// we always cancel form submission
 			return false;
 		}
-
 		function showRequest(daText) {
 
 			var conversationDiv = document.getElementById('conversation');
@@ -208,7 +193,6 @@
 			conversationDiv.appendChild(requestPara);
 			conversationDiv.scrollTop = conversationDiv.scrollHeight;
 		}
-
 		function showError(daText) {
 
 			var conversationDiv = document.getElementById('conversation');
@@ -220,7 +204,6 @@
 		}
 
 		function showResponse(lexResponse) {
-
 			var conversationDiv = document.getElementById('conversation');
 			var responsePara = document.createElement("P");
 			responsePara.className = 'lexResponse';
@@ -240,7 +223,6 @@
 			conversationDiv.scrollTop = conversationDiv.scrollHeight;
 		}
 	</script>
-
 	<!-- Audio control Javascript code starts here -->
 	<script src="https://sdk.amazonaws.com/js/aws-sdk-2.48.0.min.js"></script>
 	<script type="text/javascript">
