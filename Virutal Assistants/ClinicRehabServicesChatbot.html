@@ -119,9 +119,7 @@
 				<img src="images/lex.png">
 				<canvas class="visualizer"></canvas>
 			</p>
-			<p>
-				<span id="message"></span>
-			</p>
+			<p><span id="message"></span></p>
 		</div>
 		<!-- Audio control html code ends here -->
 	</form>
@@ -186,9 +184,7 @@
 			// we always cancel form submission
 			return false;
 		}
-
 		function showRequest(daText) {
-
 			var conversationDiv = document.getElementById('conversation');
 			var requestPara = document.createElement("P");
 			requestPara.className = 'userRequest';
@@ -196,9 +192,7 @@
 			conversationDiv.appendChild(requestPara);
 			conversationDiv.scrollTop = conversationDiv.scrollHeight;
 		}
-
 		function showError(daText) {
-
 			var conversationDiv = document.getElementById('conversation');
 			var errorPara = document.createElement("P");
 			errorPara.className = 'lexError';
@@ -206,9 +200,7 @@
 			conversationDiv.appendChild(errorPara);
 			conversationDiv.scrollTop = conversationDiv.scrollHeight;
 		}
-
 		function showResponse(lexResponse) {
-
 			var conversationDiv = document.getElementById('conversation');
 			var responsePara = document.createElement("P");
 			responsePara.className = 'lexResponse';
