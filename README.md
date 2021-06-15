@@ -1,6 +1,12 @@
-# Virtual-Assistant
-Please open ClinicRehabServicesChatbot.html and WeatherServicesChatbot.html if you would like to view my AI virtual Assistants.Please do not open any other files as it may distrupt the functionality of the chatbots. All other files in the zip file are all connected and ensure that the chatbots work perfectly. So please do not view anything except the ones said in the directory.
 
-VIEW CHATBOT FILES IN Firefox if you would like to access voice recongition and if you would like to use your voice to communicate.
+# Virtual-Assistant (New and Improved) 
 
-Using Node.js (BackEnd Javascript) , HTML, CSS, Amazon Lex, Machine Learning (Tensorflow), and Api's, two chatbots were created. One for the weather and the other for a clinic. The first assistant tells you about the weather and other things related to it, and the other books an appointment and gives you information on the services of that clinic. A very hard project to build. It tooks approxmiately 2-3 months for me to compute the alogrithms and code for this program.
+
+ClinicRehabServicesChatbot.html: This file is the clinic virtual assistant I built for Azsure Health and Rehab. It allows the user to book an appointment and learn about the various services and products the clinic offers for its clients.
+
+WeatherServicesChatbot.html: This file is the weather virtual assistat built for daily use. You can find out the temperature of any place in the world along with the humidity, wind speed, and precipitaion probability. 
+
+Built in: AWS (Amazon Lex),Node.js, HTML, CSS, Tensorflow, and weather API. The virtual assistants can recgonize grammatical and strucutral errors from the users and still respond back appropriately.
+
+The following HTML files only consist of code that allows me to connect AWS services and intents to a regular web page. The files also include code to integrate voice recognition. However, most of the Node.js script that was coded to connect API's and messages is only available in the Lamda Console. But the code is still provided as comments in the .js files. 
+
