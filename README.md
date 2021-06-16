@@ -1,5 +1,5 @@
 
-# Virtual-Assistant (New and Improved) 
+# Virtual-Assistant (New and Improved)
 
 
 ClinicRehabServicesChatbot.html: This file represents the clinic virtual assistant I built for Azsure Health and Rehab. It allows the user to book an appointment and learn about the various services and products the clinic offers for its clients.
